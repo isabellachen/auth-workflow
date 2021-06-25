@@ -13,7 +13,8 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 app.use(morgan('dev'));
-// app.use(routes);
+
+app.use(routes);
 
 const users = [
   { id: 1, username: 'isa', password: '123' },
@@ -45,7 +46,7 @@ app.post('/login', (req, res) => {
       sub: user.id,
       username: user.username
     },
-    'tempPrivateKey',
+    'tempPrivateKey', //where should this private key be stored? Is it unique to the user?
     { expiresIn: '3 hours' }
   );
   res.status(200).send({ access_token: token });
