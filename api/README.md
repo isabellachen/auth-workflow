@@ -12,11 +12,12 @@ SECRET_KEY=
 
 ## Notes
 
-How to check your collections in mongo:
+How to check and modify your collections in mongo:
 
 ```bash
 > mongo
-> use auth-workflow
+> use database_name
 > show dbs
-> db.createCollection("users")
+> db.users.find()
+> db.dropDatabase()
 ```
