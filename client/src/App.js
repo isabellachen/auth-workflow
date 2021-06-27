@@ -7,23 +7,25 @@ import './App.scss';
 
 const App = () => {
   const history = useHistory();
-  const [loggedIn, setLoggedIn] = useState(false);
+  const [userData, setUserData] = useState({});
+  const [authenticated, setAuthenticated] = useState(false);
+
   useEffect(() => {
-    if (loggedIn) {
+    if (authenticated) {
       history.push({
         pathname: '/profile'
       });
     }
-  }, [history, loggedIn]);
+  }, [history, authenticated]);
   return (
     <div>
       <Switch>
         <Route path="/" exact>
-          <Home loggedIn={loggedIn} setLoggedIn={setLoggedIn} />
+          <Home setUserData={setUserData} userData={userData} />
         </Route>
         <ProtectedRoute
           path="/profile"
-          loggedIn={loggedIn}
+          authenticated={authenticated}
           component={Profile}
         />
       </Switch>
