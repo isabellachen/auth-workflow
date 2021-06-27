@@ -9,8 +9,10 @@ const Home = ({ setUserData, userData, setAuthenticated }) => {
       email: 'isa@gmail.com',
       password: '123'
     });
-    setUserData({ ...userData, ...newUser });
-    setAuthenticated(true);
+    if (newUser) {
+      setUserData({ ...userData, ...newUser });
+      setAuthenticated(true);
+    }
     return;
   };
   return (
