@@ -21,7 +21,11 @@ const App = () => {
     <div>
       <Switch>
         <Route path="/" exact>
-          <Home setUserData={setUserData} userData={userData} />
+          <Home
+            setUserData={setUserData}
+            userData={userData}
+            setAuthenticated={setAuthenticated}
+          />
         </Route>
         <ProtectedRoute
           path="/profile"

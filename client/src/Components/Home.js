@@ -1,7 +1,7 @@
 import React from 'react';
 import { SignUp, SignIn } from '../Services/Api';
 
-const Home = ({ setUserData, userData }) => {
+const Home = ({ setUserData, userData, setAuthenticated }) => {
   const handleSignUp = async (e) => {
     e.preventDefault();
     const newUser = await SignUp({
@@ -10,6 +10,7 @@ const Home = ({ setUserData, userData }) => {
       password: '123'
     });
     setUserData({ ...userData, ...newUser });
+    setAuthenticated(true);
     return;
   };
   return (
