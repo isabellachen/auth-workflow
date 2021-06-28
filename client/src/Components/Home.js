@@ -3,8 +3,6 @@ import SignUpForm from './SignUpForm';
 import { signUp, signIn } from '../Services/Api';
 
 const Home = ({ setUserData, userData, setAuthenticated }) => {
-  // const [signUpError, setSignUpError] = useState({ error: false, message: '' });
-  // const [signUpSuccess, setSignUpSuccess] = useState({ success: false, message: '' });
   const [signUpResponse, setSignUpResponse] = useState({
     success: false,
     error: false,

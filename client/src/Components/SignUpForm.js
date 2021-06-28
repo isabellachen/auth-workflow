@@ -1,4 +1,9 @@
 import React, { useState, useEffect } from 'react';
+import {
+  NameInputComponent,
+  EmailInputComponent,
+  PasswordInputComponent
+} from './FormElements';
 import { isValidName, isValidEmail, isValidPassword } from '../Helpers/helpers';
 import './SignUpForm.scss';
 
@@ -45,26 +50,14 @@ const SignUpForm = (props) => {
   return (
     <div className="signup">
       <form>
-        <label>Name</label>
-        <input
-          type="text"
-          id="name"
-          placeholder="Name"
-          value={name}
-          onChange={handleNameChange}
+        <NameInputComponent name={name} handleNameChange={handleNameChange} />
+        <EmailInputComponent
+          email={email}
+          handleEmailChange={handleEmailChange}
         />
-        <label>Email</label>
-        <input
-          type="email"
-          placeholder="Email"
-          value={email}
-          onChange={handleEmailChange}
-        />
-        <label>Password</label>
-        <input
-          type="password"
-          value={password}
-          onChange={handlePasswordChange}
+        <PasswordInputComponent
+          password={name}
+          handlePasswordChange={handlePasswordChange}
         />
         <button
           onClick={(e) => {
