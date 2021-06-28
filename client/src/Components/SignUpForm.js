@@ -45,7 +45,7 @@ const SignUpForm = (props) => {
   return (
     <div className="signup">
       <form>
-        <label for="name">Name</label>
+        <label>Name</label>
         <input
           type="text"
           id="name"
@@ -53,14 +53,14 @@ const SignUpForm = (props) => {
           value={name}
           onChange={handleNameChange}
         />
-        <label for="email">Email</label>
+        <label>Email</label>
         <input
           type="email"
           placeholder="Email"
           value={email}
           onChange={handleEmailChange}
         />
-        <label for="email">Password</label>
+        <label>Password</label>
         <input
           type="password"
           value={password}
