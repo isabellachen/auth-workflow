@@ -1,13 +1,13 @@
 import React from 'react';
+import SignUpForm from './SignUpForm';
 import { signUp, signIn } from '../Services/Api';
 
 const Home = ({ setUserData, userData, setAuthenticated }) => {
-  const handleSignUp = async (e) => {
-    e.preventDefault();
+  const handleSignUp = async ({ name, email, password }) => {
     const newUser = await signUp({
-      name: 'isa',
-      email: 'isa@gmail.com',
-      password: '123'
+      name,
+      email,
+      password
     });
     if (newUser) {
       setUserData({ ...userData, ...newUser });
@@ -33,7 +33,8 @@ const Home = ({ setUserData, userData, setAuthenticated }) => {
 
   return (
     <div>
-      <button onClick={handleSignUp}>Sign Up</button>
+      <SignUpForm handleSignUp={handleSignUp} />
+
       <button onClick={handleSignIn}>Sign In</button>
     </div>
   );
