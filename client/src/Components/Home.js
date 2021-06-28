@@ -1,9 +1,15 @@
 import React, { useState } from 'react';
 import SignUpForm from './SignUpForm';
+import SignInForm from './SignInForm';
 import { signUp, signIn } from '../Services/Api';
 
 const Home = ({ setUserData, userData, setAuthenticated }) => {
   const [signUpResponse, setSignUpResponse] = useState({
+    success: false,
+    error: false,
+    message: ''
+  });
+  const [signInResponse, setSignInResponse] = useState({
     success: false,
     error: false,
     message: ''
@@ -24,7 +30,6 @@ const Home = ({ setUserData, userData, setAuthenticated }) => {
       }
       return;
     } catch (err) {
-      err.name = '';
       setSignUpResponse({
         ...signUpResponse,
         error: true,
@@ -34,23 +39,39 @@ const Home = ({ setUserData, userData, setAuthenticated }) => {
     }
   };
 
-  const handleSignIn = async (e) => {
-    e.preventDefault();
-    const signedInUser = await signIn({
-      email: 'isa@gmail.com',
-      password: '123'
-    });
-    if (signedInUser) {
-      setUserData({ ...userData, ...signedInUser });
-      window.localStorage.setItem('access_token', signedInUser['access_token']);
-      setAuthenticated(true);
+  const handleSignIn = async ({ email, password }) => {
+    try {
+      const signedInUser = await signIn({ email, password });
+      if (signedInUser) {
+        setUserData({ ...userData, ...signedInUser });
+        window.localStorage.setItem(
+          'access_token',
+          signedInUser['access_token']
+        );
+        setAuthenticated(true);
+        //TODO: Is this necessary since user is redirected?
+        setSignInResponse({
+          ...signUpResponse,
+          error: false,
+          success: true,
+          message: 'Sign in success!'
+        });
+      }
+      return;
+    } catch (err) {
+      setSignInResponse({
+        ...signUpResponse,
+        error: true,
+        success: false,
+        message: err.toString()
+      });
     }
-    return;
   };
 
   return (
     <div>
       <SignUpForm handleSignUp={handleSignUp} response={signUpResponse} />
+      <SignInForm handleSignIn={handleSignIn} response={signInResponse} />
       <button onClick={handleSignIn}>Sign In</button>
     </div>
   );

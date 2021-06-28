@@ -18,7 +18,6 @@ export const signUp = (data) => {
     .then(handleErrors)
     .then((res) => res.json())
     .catch((err) => {
-      err.name = '';
       throw new Error(err.toString());
     });
 };
@@ -35,7 +34,7 @@ export const signIn = async (data) => {
     .then(handleErrors)
     .then((res) => res.json())
     .catch((err) => {
-      console.error(err);
+      throw new Error(err.toString());
     });
 };
 

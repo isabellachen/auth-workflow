@@ -57,7 +57,7 @@ export async function signIn(req, res) {
     return;
   }
 
-  const validPassword = bcrypt.compare(password, user.password);
+  const validPassword = await bcrypt.compare(password, user.password);
   if (!validPassword) {
     res.status(400).json('Wrong password');
     return;

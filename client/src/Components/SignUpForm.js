@@ -56,7 +56,7 @@ const SignUpForm = (props) => {
           handleEmailChange={handleEmailChange}
         />
         <PasswordInputComponent
-          password={name}
+          password={password}
           handlePasswordChange={handlePasswordChange}
         />
         <button
