@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { isValidName, isValidEmail, isValidPassword } from '../Helpers/helpers';
 import './SignUpForm.scss';
 
 const SignUpForm = (props) => {
@@ -6,12 +7,19 @@ const SignUpForm = (props) => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [disableSubmit, setDisableSubmit] = useState(false);
+  const [isSubmitEnabled, setIsSubmitEnabled] = useState(false);
+
+  useEffect(() => {
+    if (isValidName(name) && isValidEmail(email) && isValidPassword(password)) {
+      setIsSubmitEnabled(true);
+    }
+  }, [name, email, password]);
 
   const checkValidation = (name, email, password) => {
-    console.log(name, email, password);
-    if (name.length > 3 && email.length > 3 && password.length > 2) {
-      setDisableSubmit(false);
+    if (isValidName(name) && isValidEmail(email) && isValidPassword(password)) {
+      setIsSubmitEnabled(true);
+    } else {
+      setIsSubmitEnabled(false);
     }
     return;
   };
@@ -63,7 +71,7 @@ const SignUpForm = (props) => {
             e.preventDefault();
             handleSignUp({ name, email, password });
           }}
-          disabled={disableSubmit}
+          disabled={!isSubmitEnabled}
         >
           Sign Up
         </button>
