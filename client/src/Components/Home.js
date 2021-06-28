@@ -3,7 +3,13 @@ import SignUpForm from './SignUpForm';
 import { signUp, signIn } from '../Services/Api';
 
 const Home = ({ setUserData, userData, setAuthenticated }) => {
-  const [error, setError] = useState({ error: false, message: '' });
+  // const [signUpError, setSignUpError] = useState({ error: false, message: '' });
+  // const [signUpSuccess, setSignUpSuccess] = useState({ success: false, message: '' });
+  const [signUpResponse, setSignUpResponse] = useState({
+    success: false,
+    error: false,
+    message: ''
+  });
   const handleSignUp = async ({ name, email, password }) => {
     try {
       const newUser = await signUp({ name, email, password });
@@ -11,11 +17,22 @@ const Home = ({ setUserData, userData, setAuthenticated }) => {
         setUserData({ ...userData, ...newUser });
         window.localStorage.setItem('access_token', newUser['access_token']);
         setAuthenticated(true);
+        setSignUpResponse({
+          ...signUpResponse,
+          error: false,
+          success: true,
+          message: 'Sign up success!'
+        });
       }
-      // return;
+      return;
     } catch (err) {
       err.name = '';
-      setError({ ...error, error: true, message: err.toString() });
+      setSignUpResponse({
+        ...signUpResponse,
+        error: true,
+        success: false,
+        message: err.toString()
+      });
     }
   };
 
@@ -35,7 +52,7 @@ const Home = ({ setUserData, userData, setAuthenticated }) => {
 
   return (
     <div>
-      <SignUpForm handleSignUp={handleSignUp} error={error} />
+      <SignUpForm handleSignUp={handleSignUp} response={signUpResponse} />
       <button onClick={handleSignIn}>Sign In</button>
     </div>
   );

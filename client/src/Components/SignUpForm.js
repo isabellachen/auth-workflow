@@ -2,27 +2,36 @@ import React, { useState } from 'react';
 import './SignUpForm.scss';
 
 const SignUpForm = (props) => {
-  const { handleSignUp, error } = props;
+  const { handleSignUp, response } = props;
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [disableSubmit, setDisableSubmit] = useState(false);
+
+  const checkValidation = (name, email, password) => {
+    console.log(name, email, password);
+    if (name.length > 3 && email.length > 3 && password.length > 2) {
+      setDisableSubmit(false);
+    }
+    return;
+  };
 
   const handleNameChange = (evt) => {
-    const newValue = evt.target.value;
-    console.log('name: ', newValue);
-    setName(newValue);
+    const newNameValue = evt.target.value;
+    setName(newNameValue);
+    checkValidation(newNameValue, email, password);
   };
 
   const handleEmailChange = (evt) => {
-    const newValue = evt.target.value;
-    console.log('email: ', newValue);
-    setEmail(newValue);
+    const newEmailValue = evt.target.value;
+    setEmail(newEmailValue);
+    checkValidation(name, newEmailValue, password);
   };
 
   const handlePasswordChange = (evt) => {
-    const newValue = evt.target.value;
-    console.log('password: ', newValue);
-    setPassword(newValue);
+    const newPasswordValue = evt.target.value;
+    setPassword(newPasswordValue);
+    checkValidation(name, email, newPasswordValue);
   };
 
   return (
@@ -54,11 +63,12 @@ const SignUpForm = (props) => {
             e.preventDefault();
             handleSignUp({ name, email, password });
           }}
+          disabled={disableSubmit}
         >
           Sign Up
         </button>
       </form>
-      <div>{error.message}</div>
+      <div>{response.message}</div>
     </div>
   );
 };
