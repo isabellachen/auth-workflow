@@ -3,7 +3,6 @@ import { getProtectedMessage } from '../Services/Api';
 
 const Profile = (props) => {
   const [message, setMessage] = useState('');
-  console.log(props);
 
   useEffect(() => {
     const fetchData = async () => {

@@ -41,7 +41,6 @@ export const signIn = async (data) => {
 export const getProtectedMessage = async (token) => {
   const URI = 'http://localhost:3001'; //TODO save root uri to environment variable
   const bearer = 'Bearer ' + token;
-  console.log(bearer);
   return fetch(`${URI}/me`, {
     method: 'GET',
     withCredentials: true,
@@ -58,15 +57,3 @@ export const getProtectedMessage = async (token) => {
       console.error(err);
     });
 };
-
-// export const getProtectedMessage = async (token) => {
-//   const URI = 'http://localhost:3001'; //TODO save root uri to environment variable
-//   return fetch(`${URI}/public`, {
-//     method: 'GET'
-//   })
-//     .then(handleErrors)
-//     .then((res) => res.json())
-//     .catch((err) => {
-//       console.error(err);
-//     });
-// };
