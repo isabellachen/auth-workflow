@@ -18,7 +18,8 @@ export const signUp = (data) => {
     .then(handleErrors)
     .then((res) => res.json())
     .catch((err) => {
-      console.error(err);
+      err.name = '';
+      throw new Error(err.toString());
     });
 };
 

@@ -1,20 +1,22 @@
-import React from 'react';
+import React, { useState } from 'react';
 import SignUpForm from './SignUpForm';
 import { signUp, signIn } from '../Services/Api';
 
 const Home = ({ setUserData, userData, setAuthenticated }) => {
+  const [error, setError] = useState({ error: false, message: '' });
   const handleSignUp = async ({ name, email, password }) => {
-    const newUser = await signUp({
-      name,
-      email,
-      password
-    });
-    if (newUser) {
-      setUserData({ ...userData, ...newUser });
-      window.localStorage.setItem('access_token', newUser['access_token']);
-      setAuthenticated(true);
+    try {
+      const newUser = await signUp({ name, email, password });
+      if (newUser) {
+        setUserData({ ...userData, ...newUser });
+        window.localStorage.setItem('access_token', newUser['access_token']);
+        setAuthenticated(true);
+      }
+      // return;
+    } catch (err) {
+      err.name = '';
+      setError({ ...error, error: true, message: err.toString() });
     }
-    return;
   };
 
   const handleSignIn = async (e) => {
@@ -33,8 +35,7 @@ const Home = ({ setUserData, userData, setAuthenticated }) => {
 
   return (
     <div>
-      <SignUpForm handleSignUp={handleSignUp} />
-
+      <SignUpForm handleSignUp={handleSignUp} error={error} />
       <button onClick={handleSignIn}>Sign In</button>
     </div>
   );
