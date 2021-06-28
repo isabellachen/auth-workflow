@@ -15,11 +15,25 @@ const Home = ({ setUserData, userData, setAuthenticated }) => {
     }
     return;
   };
+
+  const handleSignIn = async (e) => {
+    e.preventDefault();
+    const signedInUser = await SignIn({
+      email: 'isa@gmail.com',
+      password: '123'
+    });
+    if (signedInUser) {
+      setUserData({ ...userData, ...signedInUser });
+      setAuthenticated(true);
+    }
+    return;
+  };
+
   return (
     <div>
       <p>User is logged in: {JSON.stringify(userData)}</p>
       <button onClick={handleSignUp}>Sign Up</button>
-      {/* <button onClick={() => setSignedIn(true)}>Sign In</button> */}
+      <button onClick={handleSignIn}>Sign In</button>
     </div>
   );
 };

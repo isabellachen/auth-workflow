@@ -17,13 +17,13 @@ export async function signUp(req, res) {
   const { name, email, password } = req.body;
 
   if (!name || !email || !password) {
-    res.status(401).send(`You're missing a property`);
+    res.status(400).send(`You're missing a property`);
   }
 
   const user = await User.findOne({ email });
 
   if (user) {
-    res.status(401).send({ message: 'User already exists' });
+    res.status(400).send('User already exists');
     return;
   }
 
@@ -53,17 +53,20 @@ export async function signIn(req, res) {
   const user = await User.findOne({ email });
 
   if (!user) {
-    res.status(401).send('User not found');
+    res.status(400).send('User not found');
     return;
   }
 
   const validPassword = bcrypt.compare(password, user.password);
   if (!validPassword) {
-    res.status(401).send('Wrong Password');
+    res.status(400).send('Wrong password');
     return;
   }
   const token = createToken(user);
-  res.status(200).send({ access_token: token });
+  console.log(user);
+  res
+    .status(200)
+    .send({ name: user.name, email: user.email, access_token: token });
 }
 
 export function profile(req, res) {

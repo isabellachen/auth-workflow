@@ -31,6 +31,7 @@ const App = () => {
           path="/profile"
           authenticated={authenticated}
           component={Profile}
+          userData={userData}
         />
       </Switch>
     </div>
