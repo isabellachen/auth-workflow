@@ -71,5 +71,4 @@ export async function signIn(req, res) {
 
 export function profile(req, res) {
   res.status(200).json('Resource only for authenticated users');
-  // res.json('Resource only for authenticated users');
 }
