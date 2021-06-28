@@ -70,5 +70,5 @@ export async function signIn(req, res) {
 }
 
 export function profile(req, res) {
-  res.status(200).send('A secret resource - only for loggedIn users');
+  res.json('Resource only for authenticated users');
 }

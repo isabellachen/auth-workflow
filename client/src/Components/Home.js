@@ -1,16 +1,17 @@
 import React from 'react';
-import { SignUp, SignIn } from '../Services/Api';
+import { signUp, signIn } from '../Services/Api';
 
 const Home = ({ setUserData, userData, setAuthenticated }) => {
   const handleSignUp = async (e) => {
     e.preventDefault();
-    const newUser = await SignUp({
+    const newUser = await signUp({
       name: 'isa',
       email: 'isa@gmail.com',
       password: '123'
     });
     if (newUser) {
       setUserData({ ...userData, ...newUser });
+      window.localStorage.setItem('access_token', newUser['access_token']);
       setAuthenticated(true);
     }
     return;
@@ -18,12 +19,13 @@ const Home = ({ setUserData, userData, setAuthenticated }) => {
 
   const handleSignIn = async (e) => {
     e.preventDefault();
-    const signedInUser = await SignIn({
+    const signedInUser = await signIn({
       email: 'isa@gmail.com',
       password: '123'
     });
     if (signedInUser) {
       setUserData({ ...userData, ...signedInUser });
+      window.localStorage.setItem('access_token', signedInUser['access_token']);
       setAuthenticated(true);
     }
     return;
@@ -31,7 +33,6 @@ const Home = ({ setUserData, userData, setAuthenticated }) => {
 
   return (
     <div>
-      <p>User is logged in: {JSON.stringify(userData)}</p>
       <button onClick={handleSignUp}>Sign Up</button>
       <button onClick={handleSignIn}>Sign In</button>
     </div>
