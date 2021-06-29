@@ -1,7 +1,7 @@
 import mongoose from 'mongoose';
 
 export default (dbName) => {
-  mongoose.connect(`mongodb://localhost/${dbName}`);
+  mongoose.connect(`mongodb://localhost:27017/${dbName}`);
 
   const db = mongoose.connection;
 

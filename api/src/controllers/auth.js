@@ -2,15 +2,16 @@ import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
 import { User } from '../model/index.js';
 
-const createToken = (user) => {
-  return jwt.sign(
+export const createToken = (user) => {
+  const token = jwt.sign(
     {
       sub: user['_id'],
       username: user.email
     },
-    process.env.SECRET_KEY, //where should this private key be stored? Is it unique to the user?
-    { expiresIn: '3 hours' }
+    process.env.SECRET_KEY,
+    { expiresIn: process.env.TOKEN_EXPIRY }
   );
+  return token;
 };
 
 export async function signUp(req, res) {
