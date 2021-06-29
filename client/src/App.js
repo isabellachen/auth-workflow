@@ -30,6 +30,7 @@ const App = () => {
         <ProtectedRoute
           path="/profile"
           authenticated={authenticated}
+          setAuthenticated={setAuthenticated}
           component={Profile}
           userData={userData}
         />

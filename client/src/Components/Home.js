@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import SignUpForm from './SignUpForm';
 import SignInForm from './SignInForm';
 import { signUp, signIn } from '../Services/Api';
+import { formatError } from '../Helpers/helpers';
 
 const Home = ({ setUserData, userData, setAuthenticated }) => {
   const [signUpResponse, setSignUpResponse] = useState({
@@ -21,20 +22,15 @@ const Home = ({ setUserData, userData, setAuthenticated }) => {
         setUserData({ ...userData, ...newUser });
         window.localStorage.setItem('access_token', newUser['access_token']);
         setAuthenticated(true);
-        setSignUpResponse({
-          ...signUpResponse,
-          error: false,
-          success: true,
-          message: 'Sign up success!'
-        });
       }
       return;
     } catch (err) {
+      const errorString = formatError(err.toString());
       setSignUpResponse({
         ...signUpResponse,
         error: true,
         success: false,
-        message: err.toString()
+        message: errorString
       });
     }
   };
@@ -49,21 +45,15 @@ const Home = ({ setUserData, userData, setAuthenticated }) => {
           signedInUser['access_token']
         );
         setAuthenticated(true);
-        //TODO: Is this necessary since user is redirected?
-        setSignInResponse({
-          ...signUpResponse,
-          error: false,
-          success: true,
-          message: 'Sign in success!'
-        });
       }
       return;
     } catch (err) {
+      const errorString = formatError(err.toString());
       setSignInResponse({
         ...signUpResponse,
         error: true,
         success: false,
-        message: err.toString()
+        message: errorString
       });
     }
   };

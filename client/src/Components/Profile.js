@@ -3,6 +3,7 @@ import { getProtectedMessage } from '../Services/Api';
 
 const Profile = (props) => {
   const [message, setMessage] = useState('');
+  const { setAuthenticated } = props;
 
   useEffect(() => {
     const fetchData = async () => {
@@ -14,12 +15,20 @@ const Profile = (props) => {
     fetchData();
   });
 
-  console.log('props from profile: ', props);
+  console.log(props);
   const { name } = props.userData;
   return (
     <div>
       <h1>Hi {name}</h1>
       <p>{message}</p>
+      <button
+        onClick={() => {
+          window.localStorage.removeItem('access_token');
+          setAuthenticated(false);
+        }}
+      >
+        Sign Out
+      </button>
     </div>
   );
 };

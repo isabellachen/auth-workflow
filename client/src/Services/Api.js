@@ -16,10 +16,7 @@ export const signUp = (data) => {
     }
   })
     .then(handleErrors)
-    .then((res) => res.json())
-    .catch((err) => {
-      throw new Error(err.toString());
-    });
+    .then((res) => res.json());
 };
 
 export const signIn = async (data) => {
@@ -32,10 +29,7 @@ export const signIn = async (data) => {
     }
   })
     .then(handleErrors)
-    .then((res) => res.json())
-    .catch((err) => {
-      throw new Error(err.toString());
-    });
+    .then((res) => res.json());
 };
 
 export const getProtectedMessage = async (token) => {
@@ -52,8 +46,5 @@ export const getProtectedMessage = async (token) => {
     }
   })
     .then(handleErrors)
-    .then((res) => res.json())
-    .catch((err) => {
-      console.error(err);
-    });
+    .then((res) => res.json());
 };
