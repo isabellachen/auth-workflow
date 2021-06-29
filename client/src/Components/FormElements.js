@@ -17,7 +17,7 @@ export const NameInputComponent = ({ handleNameChange, name }) => {
 export const EmailInputComponent = ({ handleEmailChange, email }) => {
   return (
     <Fragment>
-      <label>Name</label>
+      <label>Email</label>
       <input
         type="text"
         id="email"

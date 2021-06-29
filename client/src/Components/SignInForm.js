@@ -1,9 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import {
-  NameInputComponent,
-  EmailInputComponent,
-  PasswordInputComponent
-} from './FormElements';
+import { EmailInputComponent, PasswordInputComponent } from './FormElements';
 import { isValidEmail, isValidPassword } from '../Helpers/helpers';
 import './SignInForm.scss';
 
@@ -16,28 +12,19 @@ const SignInForm = (props) => {
   useEffect(() => {
     if (isValidEmail(email) && isValidPassword(password)) {
       setIsSubmitEnabled(true);
-    }
-  }, [email, password]);
-
-  const checkValidation = (email, password) => {
-    if (isValidEmail(email) && isValidPassword(password)) {
-      setIsSubmitEnabled(true);
     } else {
       setIsSubmitEnabled(false);
     }
-    return;
-  };
+  }, [email, password]);
 
   const handleEmailChange = (evt) => {
     const newEmailValue = evt.target.value;
     setEmail(newEmailValue);
-    checkValidation(newEmailValue, password);
   };
 
   const handlePasswordChange = (evt) => {
     const newPasswordValue = evt.target.value;
     setPassword(newPasswordValue);
-    checkValidation(email, newPasswordValue);
   };
 
   return (
@@ -61,7 +48,7 @@ const SignInForm = (props) => {
           Sign In
         </button>
       </form>
-      <div>{response.message}</div>
+      <div>{response.error && response.message}</div>
     </div>
   );
 };

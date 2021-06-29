@@ -69,7 +69,7 @@ const SignUpForm = (props) => {
           Sign Up
         </button>
       </form>
-      <div>{response.message}</div>
+      <div>{response.error && response.message}</div>
     </div>
   );
 };

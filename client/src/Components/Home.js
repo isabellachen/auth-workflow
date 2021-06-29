@@ -72,7 +72,6 @@ const Home = ({ setUserData, userData, setAuthenticated }) => {
     <div>
       <SignUpForm handleSignUp={handleSignUp} response={signUpResponse} />
       <SignInForm handleSignIn={handleSignIn} response={signInResponse} />
-      <button onClick={handleSignIn}>Sign In</button>
     </div>
   );
 };
