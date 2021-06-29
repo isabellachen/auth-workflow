@@ -7,8 +7,7 @@ async function handleErrors(res) {
 }
 
 export const signUp = (data) => {
-  const URI = 'http://localhost:3001'; //TODO save root uri to environment variable
-  return fetch(`${URI}/sign-up`, {
+  return fetch(`${process.env.REACT_APP_SERVER_URL}/sign-up`, {
     method: 'POST',
     body: JSON.stringify(data),
     headers: {
@@ -20,8 +19,7 @@ export const signUp = (data) => {
 };
 
 export const signIn = async (data) => {
-  const URI = 'http://localhost:3001'; //TODO save root uri to environment variable
-  return fetch(`${URI}/sign-in`, {
+  return fetch(`${process.env.REACT_APP_SERVER_URL}/sign-in`, {
     method: 'POST',
     body: JSON.stringify(data),
     headers: {
@@ -33,9 +31,8 @@ export const signIn = async (data) => {
 };
 
 export const getProtectedMessage = async (token) => {
-  const URI = 'http://localhost:3001'; //TODO save root uri to environment variable
   const bearer = 'Bearer ' + token;
-  return fetch(`${URI}/me`, {
+  return fetch(`${process.env.REACT_APP_SERVER_URL}/me`, {
     method: 'GET',
     withCredentials: true,
     credentials: 'include',
