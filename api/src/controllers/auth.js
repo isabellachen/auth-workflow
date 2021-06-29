@@ -2,14 +2,14 @@ import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
 import { User } from '../model/index.js';
 
-export const createToken = (user) => {
+export const createToken = (user, secretKey, expiry) => {
   const token = jwt.sign(
     {
-      sub: user['_id'],
-      username: user.email
+      id: user['_id'],
+      email: user.email
     },
-    process.env.SECRET_KEY,
-    { expiresIn: process.env.TOKEN_EXPIRY }
+    secretKey,
+    { expiresIn: expiry }
   );
   return token;
 };
@@ -36,7 +36,11 @@ export async function signUp(req, res) {
 
   const newUserInfo = newUser['_doc'];
 
-  const token = createToken(newUserInfo);
+  const token = createToken(
+    newUserInfo,
+    process.env.SECRET_KEY,
+    process.env.TOKEN_EXPIRY
+  );
 
   res.status(200).json({
     name: newUserInfo.name,
@@ -63,7 +67,11 @@ export async function signIn(req, res) {
     res.status(400).json('Wrong password');
     return;
   }
-  const token = createToken(user);
+  const token = createToken(
+    user,
+    process.env.SECRET_KEY,
+    process.env.TOKEN_EXPIRY
+  );
   console.log(user);
   res
     .status(200)

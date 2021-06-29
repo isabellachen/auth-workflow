@@ -1,5 +1,6 @@
 import mongoose from 'mongoose';
 import cuid from 'cuid';
+import _ from 'lodash';
 import { beforeEach } from '@jest/globals';
 import { User } from './src/model/index';
 
@@ -47,11 +48,15 @@ beforeEach(async (done) => {
   done();
 });
 
-afterEach(async (done) => {
-  await mongoose.connection.db.dropDatabase();
-  await mongoose.disconnect();
-  return done();
+afterEach((done) => {
+  mongoose.connection.db
+    .dropDatabase()
+    .then(() => mongoose.disconnect().then(() => done()));
+  // await mongoose.disconnect();
+  // done();
+  // return;
 });
 afterAll((done) => {
-  return done();
+  done();
+  // return;
 });
