@@ -7,9 +7,9 @@ dotenv.config();
 const router = express.Router();
 
 /* Simple check to see if signature matches the one
- * from our authetication server. In a real authentication
- * server, you'd check for the issuer, audience and more to
- * validate the integrity of the server
+ * from our authetication server. In a real world scenario
+ * with AuthO, you would use the configurations provided
+ * from your account.
  */
 
 const jwtCheck = expressjwt({
