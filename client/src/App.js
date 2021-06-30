@@ -18,7 +18,7 @@ const App = () => {
     }
   }, [history, authenticated]);
   return (
-    <div>
+    <div class="app">
       <Switch>
         <Route path="/" exact>
           <Home

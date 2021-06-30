@@ -1,8 +1,9 @@
-import React, { Fragment } from 'react';
+import React from 'react';
+import './FormElements.scss';
 
 export const NameInputComponent = ({ handleNameChange, name }) => {
   return (
-    <Fragment>
+    <div className="input-element">
       <label>Name</label>
       <input
         type="text"
@@ -11,12 +12,12 @@ export const NameInputComponent = ({ handleNameChange, name }) => {
         value={name}
         onChange={handleNameChange}
       />
-    </Fragment>
+    </div>
   );
 };
 export const EmailInputComponent = ({ handleEmailChange, email }) => {
   return (
-    <Fragment>
+    <div className="input-element">
       <label>Email</label>
       <input
         type="text"
@@ -25,20 +26,20 @@ export const EmailInputComponent = ({ handleEmailChange, email }) => {
         value={email}
         onChange={handleEmailChange}
       />
-    </Fragment>
+    </div>
   );
 };
 export const PasswordInputComponent = ({ handlePasswordChange, name }) => {
   return (
-    <Fragment>
+    <div className="input-element">
       <label>Password</label>
       <input
-        type="text"
+        type="password"
         id="password"
         placeholder="Password"
         value={name}
         onChange={handlePasswordChange}
       />
-    </Fragment>
+    </div>
   );
 };

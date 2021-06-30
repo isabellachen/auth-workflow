@@ -49,7 +49,7 @@ const SignUpForm = (props) => {
 
   return (
     <div className="signup">
-      <form>
+      <form className="d-flex flex-column">
         <NameInputComponent name={name} handleNameChange={handleNameChange} />
         <EmailInputComponent
           email={email}

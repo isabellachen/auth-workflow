@@ -4,3 +4,9 @@
   margin: 1rem;
   padding: 1rem;
 }
+
+@media (min-width: 64rem) {
+  .signup {
+    min-width: 300px;
+  }
+}

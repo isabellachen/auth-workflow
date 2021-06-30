@@ -32,3 +32,10 @@ Start up the React client
 > cd client
 > npm run start
 ```
+
+To run tests (tests only in the server)
+
+```bash
+> cd api
+> npm run test
+```

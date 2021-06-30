@@ -29,15 +29,17 @@ const SignInForm = (props) => {
 
   return (
     <div className="signin">
-      <form>
-        <EmailInputComponent
-          email={email}
-          handleEmailChange={handleEmailChange}
-        />
-        <PasswordInputComponent
-          password={password}
-          handlePasswordChange={handlePasswordChange}
-        />
+      <form className="d-flex flex-column signin__inner">
+        <div>
+          <EmailInputComponent
+            email={email}
+            handleEmailChange={handleEmailChange}
+          />
+          <PasswordInputComponent
+            password={password}
+            handlePasswordChange={handlePasswordChange}
+          />
+        </div>
         <button
           onClick={(e) => {
             e.preventDefault();

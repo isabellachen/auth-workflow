@@ -3,6 +3,7 @@ import SignUpForm from './SignUpForm';
 import SignInForm from './SignInForm';
 import { signUp, signIn } from '../Services/Api';
 import { formatError } from '../Helpers/helpers';
+import './Home.scss';
 
 const Home = ({ setUserData, userData, setAuthenticated }) => {
   const [signUpResponse, setSignUpResponse] = useState({
@@ -59,7 +60,7 @@ const Home = ({ setUserData, userData, setAuthenticated }) => {
   };
 
   return (
-    <div>
+    <div className="home">
       <SignUpForm handleSignUp={handleSignUp} response={signUpResponse} />
       <SignInForm handleSignIn={handleSignIn} response={signInResponse} />
     </div>
