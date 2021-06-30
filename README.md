@@ -13,6 +13,13 @@ SECRET_KEY=
 TOKEN_EXPIRY=
 ```
 
+Set up environment variables in root of clent folder:
+Use the port defined for the server.
+
+```bash
+REACT_APP_SERVER_URL=http://localhost:<PORT>
+```
+
 Start up Mongo with docker
 
 ```bash
