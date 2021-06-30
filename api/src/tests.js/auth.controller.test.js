@@ -1,62 +1,67 @@
-import mongoose from 'mongoose';
 import jwt from 'jsonwebtoken';
-import request from 'supertest';
-import { createToken, signUp, signIn, profile } from '../controllers/auth';
-import { User } from '../model/index';
-import { test } from '@jest/globals';
-import db from '../db/index.js';
+import bcrypt from 'bcrypt';
+import * as authController from '../controllers/auth.js';
+import { User } from '../model/index.js';
 
-const TEST_DB_NAME = 'auth-workflow-test';
-db(TEST_DB_NAME);
-
-test('creates new jwt from user', async () => {
-  const user = { _id: 'a8sdaji39Q' };
-  const secret = 'secret';
-  const expiry = '3h';
-  const token2 = createToken(user, secret, expiry);
-  const verified = await jwt.verify(token2, secret);
-  console.log(verified);
-  expect(verified.id).toBe(user['_id']);
+jest.mock('../model/index.js', () => {
+  return {
+    User: {
+      findOne: jest.fn(),
+      createUser: jest.fn()
+    }
+  };
 });
 
-test('should save user to db on sign-up', async () => {});
+const JWT_SECRET = 'secret-key';
 
-// beforeEach(async () => {
-//   const UNIQ_STRING = cuid();
-//   const url = `mongodb://localhost:27017/${TEST_DB_NAME}-${UNIQ_STRING}`;
-//   await mongoose.connect(url);
-// });
+describe('controllers/auth', () => {
+  let originalProcessEnv;
+  beforeAll(() => {
+    process.env = {
+      SECRET_KEY: JWT_SECRET,
+      TOKEN_EXPIRY: '3h'
+    };
+  });
 
-// afterEach(async (done) => {
-//   await mongoose.connection.db.dropDatabase();
-//   await mongoose.disconnect();
-//   return done();
-// });
+  afterAll(() => {
+    process.env = originalProcessEnv;
+  });
 
-// test('should save user to db on sign-up', async (done) => {
-//   const UNIQ_STRING = cuid();
-//   const url = `mongodb://localhost:27017/${TEST_DB_NAME}-${UNIQ_STRING}`;
-//   await mongoose.connect(url);
+  describe('signUp', () => {
+    it('should create a new user, given user does not exist', async () => {
+      const fakeUser = createFakeUser();
+      const req = { body: fakeUser };
+      const res = {
+        status: jest.fn(() => res),
+        json: jest.fn(() => res)
+      };
+      const newUser = {
+        _doc: {
+          _id: 'my-user-id',
+          ...fakeUser
+        }
+      };
+      User.createUser.mockResolvedValue(newUser);
 
-//   const res = await request(app)
-//     .post('/sign-up')
-//     .send({
-//       name: 'pingoo',
-//       email: 'pingoo@gmail.com',
-//       password: '1234'
-//     })
-//     .set('Accept', 'application/json')
-//     .expect('Content-Type', /json/)
-//     .expect(200)
-//     .end((err, res) => {
-//       if (err) return done(err);
-//       return done();
-//     });
-//   console.log(res);
+      await authController.signUp(req, res);
 
-//   await mongoose.connection.close();
-//   await mongoose.disconnect();
+      expect(User.createUser).toHaveBeenCalledTimes(1);
+      const createUserArgs = User.createUser.mock.calls[0][0];
+      expect(createUserArgs.name).toBe(fakeUser.name);
+      expect(createUserArgs.email).toBe(fakeUser.email);
+      const isValidHash = await bcrypt.compare(
+        fakeUser.password,
+        createUserArgs.password
+      );
+      expect(isValidHash).toBe(true);
+    });
+  });
+});
 
-//   done();
-//   expect('1').toBe(user['1']);
-// });
+function createFakeUser() {
+  return {
+    name: 'isa',
+    email: 'isa@gmail.com',
+    password: '1234'
+  };
+}
