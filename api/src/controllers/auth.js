@@ -19,6 +19,7 @@ export async function signUp(req, res) {
 
   if (!name || !email || !password) {
     res.status(400).json(`You're missing a property`);
+    return;
   }
 
   const user = await User.findOne({ email });
