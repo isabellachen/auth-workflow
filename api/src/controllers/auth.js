@@ -65,7 +65,7 @@ export async function signIn(req, res) {
 
   const validPassword = await bcrypt.compare(password, user.password);
   if (!validPassword) {
-    res.status(400).json('Wrong password');
+    res.status(401).json('Wrong password');
     return;
   }
   const token = createToken(
@@ -77,8 +77,10 @@ export async function signIn(req, res) {
   res
     .status(200)
     .json({ name: user.name, email: user.email, access_token: token });
+  return;
 }
 
 export function profile(req, res) {
-  res.status(200).json('Resource only for authenticated users');
+  res.status(200).json('Welcome to your profile page');
+  return;
 }

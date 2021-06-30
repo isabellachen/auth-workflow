@@ -107,6 +107,71 @@ describe('controllers/auth', () => {
       expect(res.status).toHaveBeenCalledWith(400);
     }
   );
+
+  describe('signIn', () => {
+    it('should return correct response when password matches', async () => {
+      const fakeUser = createFakeUser();
+      const userId = 'my-user-id';
+      const req = { body: fakeUser };
+      const res = {
+        status: jest.fn(() => res),
+        json: jest.fn(() => res)
+      };
+      User.findOne.mockResolvedValue({
+        ...fakeUser,
+        _id: userId,
+        password: await bcrypt.hash(fakeUser.password, 10)
+      });
+
+      await authController.signIn(req, res);
+
+      expect(res.status).toHaveBeenCalledWith(200);
+      const responseBody = res.json.mock.calls[0][0];
+      expect(responseBody.name).toBe(fakeUser.name);
+      expect(responseBody.email).toBe(fakeUser.email);
+      const accessToken = responseBody.access_token;
+      const decodedToken = jwt.verify(accessToken, JWT_SECRET);
+      expect(decodedToken).toEqual(
+        expect.objectContaining({
+          email: fakeUser.email,
+          id: userId
+        })
+      );
+    });
+
+    it('should return 401 Unauthorized, given password is wrong', async () => {
+      const fakeUser = createFakeUser();
+      const userId = 'my-user-id';
+      const req = {
+        body: {
+          ...fakeUser,
+          password: 'wrong password'
+        }
+      };
+      const res = {
+        status: jest.fn(() => res),
+        json: jest.fn(() => res)
+      };
+      User.findOne.mockResolvedValue({
+        ...fakeUser,
+        _id: userId,
+        password: await bcrypt.hash(fakeUser.password, 10)
+      });
+      await authController.signIn(req, res);
+      expect(res.status).toHaveBeenCalledWith(401);
+    });
+
+    it('should return HTTP 400, given no email or password provided', async () => {
+      const req = { body: {} };
+      const res = {
+        status: jest.fn(() => res),
+        json: jest.fn(() => res)
+      };
+
+      await authController.signIn(req, res);
+      expect(res.status).toHaveBeenCalledWith(400);
+    });
+  });
 });
 
 function createFakeUser() {
